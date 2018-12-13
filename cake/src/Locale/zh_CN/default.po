@@ -1,0 +1,65 @@
+# 汉化
+#
+
+# zh_CN LANGUAGE translation of CakePHP Application
+# Copyright jzaaa
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2018-12-03 08:25+0000\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+
+#: Template/Error/error400.ctp:37
+msgid "The requested address {0} was not found on this server."
+msgstr "请求地址 {0} 在此服务器上无法找到"
+
+#: Template/Error/error500.ctp:39
+msgid "An Internal Error Has Occurred"
+msgstr "发生了一个内部的错误"
+
+#: Controller/Component/AuthComponent.php:500
+msgid "You are not authorized to access that location."
+msgstr "您无权访问该位置"
+
+#: Controller/Component/CsrfComponent.php:162
+#: Http/Middleware/CsrfProtectionMiddleware.php:191
+msgid "Missing CSRF token cookie"
+msgstr "缺少CSRF令牌"
+
+
+#: Error/ExceptionRenderer.php:262
+msgid "Not Found"
+msgstr "404"
+
+#: ORM/RulesChecker.php:57
+msgid "This value is already in use"
+msgstr "该值已被使用"
+
+#: ORM/RulesChecker.php:104
+msgid "This value does not exist"
+msgstr "该值不存在"
+
+#: ORM/RulesChecker.php:128
+msgid "The count does not match {0}{1}"
+msgstr "计数不匹配 {0}{1}"
+
+
+#: Validation/Validator.php:111
+msgid "This field is required"
+msgstr "不能为空"
+
+#: Validation/Validator.php:112
+msgid "This field cannot be left empty"
+msgstr "字段不能为空"
+
+#: Validation/Validator.php:2054
+msgid "The provided value is invalid"
+msgstr "字段值非法"
