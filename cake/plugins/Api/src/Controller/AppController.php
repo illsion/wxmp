@@ -295,7 +295,9 @@ class AppController extends BaseController
 
         $data = Cache::read($token, $this->TOKEN_NAME) ?: null;
 
-        return is_null($field) ? $data[$this->MP_NAME] : $data[$this->MP_NAME][$field];
+        $mpData = empty($data[$this->MP_NAME]) ? null : $data[$this->MP_NAME];
+
+        return is_null($field) ? $mpData : $mpData[$field];
     }
 
 

@@ -41,6 +41,8 @@ class MpRulesController extends AppController
             $status = $this->MpRules->getStatus();
             $type = $this->MpRules->getType();
 
+            $fields = $this->MpRules->getTypeFields();
+
             $pageData = $this->setPage();
 
             $query = $this->MpRules->find()
@@ -62,11 +64,35 @@ class MpRulesController extends AppController
                 'items' => $data,
                 'typeIndex' => $type,
                 'statusIndex' => $status,
-                'pageData' => $pageData
+                'pageData' => $pageData,
+                'fields' => $fields
             ]);
 
         }
 
+    }
+
+
+    /**
+     * 获取指定规则
+     */
+    public function getItem()
+    {
+        if ($this->request->is('post')) {
+            $id = $this->request->getData('id');
+
+            $data = $this->MpRules->find()
+                ->contain([
+                    'MpMessages'
+                ])
+                ->where([
+                    'MpRules.id' => $id,
+                    'MpRules.mp_id' => $this->mpId
+                ])
+                ->first();
+
+            $this->apiResponse($data);
+        }
     }
 
     /**

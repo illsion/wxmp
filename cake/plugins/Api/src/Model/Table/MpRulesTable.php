@@ -127,4 +127,22 @@ class MpRulesTable extends Table
             'image' => '图片'
         ];
     }
+
+    /**
+     * 类型 需要输入的字段
+     * @return array
+     */
+    public function getTypeFields()
+    {
+        return [
+            'text' => [
+                'content' => true
+            ],
+            'image' => [
+                'description' => true,
+                'url' => true,
+                'media_url' => true
+            ]
+        ];
+    }
 }
