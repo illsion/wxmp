@@ -13,6 +13,18 @@ export function getRuleList(data) {
 }
 
 /**
+ * 获取指定公众号规则
+ * @param data
+ */
+export function getRuleItem(data) {
+  return request({
+    url: '/mp-rules/get-item',
+    method: 'post',
+    data
+  })
+}
+
+/**
  * 更新/添加公众号回复规则
  * @param data
  */
