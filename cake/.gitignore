@@ -2,10 +2,10 @@
 ##########################
 /config/app.php
 /config/.env
-/logs/*
-/tmp/*
+#/logs/*
+#/tmp/*
 /vendor/*
-/webroot/files/*
+#/webroot/files/*
 
 # OS generated files #
 ######################
