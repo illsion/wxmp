@@ -53,16 +53,7 @@ export default {
       headers: {
         'X-Token': getToken()
       },
-      file: false
-    }
-  },
-  watch: {
-    img(newVal) {
-      if (!(newVal === null || newVal === false || newVal === '')) {
-        this.file = newVal
-      } else {
-        this.file = false
-      }
+      file: this.img
     }
   },
   methods: {
