@@ -50,6 +50,11 @@ export const constantRouterMap = [
         path: 'message',
         meta: { title: '自动回复' },
         component: () => import('@/views/wx/message')
+      },
+      {
+        path: 'menu',
+        meta: { title: '自定义菜单' },
+        component: () => import('@/views/wx/menu')
       }
     ]
   },

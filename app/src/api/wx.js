@@ -69,3 +69,23 @@ export function updateEvent(data) {
     data
   })
 }
+
+/**
+ * 同步菜单
+ */
+export function synchronizeMenu() {
+  return request({
+    url: '/mp-menus/synchronize',
+    method: 'post'
+  })
+}
+
+/**
+ * 获取所有菜单
+ */
+export function getMenuList() {
+  return request({
+    url: '/mp-menus/get-menus',
+    method: 'post'
+  })
+}
