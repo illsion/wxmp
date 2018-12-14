@@ -49,7 +49,7 @@
         <mu-pagination raised :total="pageData.count" :page-size="pageData.limit" :current.sync="pageData.page" @change="fetchData" />
       </mu-flex>
     </mu-container>
-    <update-message :edit-id="editId" :open.sync="open" :type-index="typeIndex" :status-index="statusIndex" :fields="fields" />
+    <update-message :edit-id="editId" :open.sync="open" :type-index="typeIndex" :status-index="statusIndex" :fields="fields" @fetch-data="fetchData" />
     <show-message :open.sync="info.open" :info="info.item" :fields="fields" />
   </div>
 </template>

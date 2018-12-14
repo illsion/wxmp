@@ -10,8 +10,8 @@
       @input-filter="inputFilter"
     >
       <img
-        v-if="files.length && files[0].success"
-        :src="files[0].blob"
+        v-if="file !== false"
+        :src="file"
         :style="{
           height: iconSize + 'px',
           width: iconSize + 'px'
@@ -52,15 +52,17 @@ export default {
       accept: 'image/png,image/gif,image/jpeg,image/webp',
       headers: {
         'X-Token': getToken()
-      }
+      },
+      file: false
     }
   },
-  created() {
-    if (!(this.img === null || this.img === false || this.img === '')) {
-      this.files[0] = Object.assign({}, {
-        success: true,
-        blob: this.img
-      })
+  watch: {
+    img(newVal) {
+      if (!(newVal === null || newVal === false || newVal === '')) {
+        this.file = newVal
+      } else {
+        this.file = false
+      }
     }
   },
   methods: {
@@ -78,8 +80,8 @@ export default {
         // 上传错误
         if (newFile.error !== oldFile.error) {
           this.$toast.error('上传失败')
+          this.file = false
           this.$refs.upload.clear() // 清空文件列表
-          // console.log('error', newFile.error, newFile)
         }
 
         // 上传成功
@@ -117,6 +119,7 @@ export default {
       const URL = window.URL || window.webkitURL
       if (URL && URL.createObjectURL) {
         newFile.blob = URL.createObjectURL(newFile.file)
+        this.file = newFile.blob
       }
     }
   }

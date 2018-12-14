@@ -134,8 +134,8 @@ export default {
           this.loading = true
           updateRule(this.validateForm).then(response => {
             this.loading = false
+            this.$emit('fetch-data')
             this.closeDialog()
-            this.fetchData()
           }).catch(() => {
             this.loading = false
           })
