@@ -59,6 +59,8 @@ class MpController extends AppController
         ]
     ];
 
+    protected $mpId = null;
+
 
     public function initialize()
     {
@@ -79,6 +81,8 @@ class MpController extends AppController
             ])
             ->first();
 
+        $this->mpId = $id;
+
 
         if (!empty($data)) {
 
@@ -90,28 +94,28 @@ class MpController extends AppController
 
             $server = $app->server;
 
-            $server->setMessageHandler(function ($message) use ($id) {
+            $server->setMessageHandler(function ($message) {
                 switch ($message->MsgType) {
                     case 'event':
-                        return $this->replyEvent($message->Event, $id);
+                        return $this->replyEvent($message);
                         break;
                     case 'text':
-                        return $this->replyMsg($message->Content, $id);
+                        return $this->replyMsg($message->Content);
                         break;
                     case 'image':
-                        return '收到图片消息';
+                        return $this->replyEvent('image');
                         break;
                     case 'voice':
-                        return '收到语音消息';
+                        return $this->replyEvent('voice');
                         break;
                     case 'video':
-                        return '收到视频消息';
+                        return $this->replyEvent('video');
                         break;
                     case 'location':
-                        return '收到坐标消息';
+                        return $this->replyEvent('location');
                         break;
                     case 'link':
-                        return '收到链接消息';
+                        return $this->replyEvent('link');
                         break;
                     // ... 其它消息
                     default:
@@ -128,13 +132,6 @@ class MpController extends AppController
 
         exit;
 
-    }
-
-
-    public function test()
-    {
-        debug($this->replyEvent('subscribe', 1));
-        exit;
     }
 
 
@@ -167,8 +164,9 @@ class MpController extends AppController
      * @param null $mp_id
      * @return Image|null
      */
-    protected function replyMsg($keywords = null, $mp_id = null)
+    protected function replyMsg($keywords = null)
     {
+
         $entity = TableRegistry::getTableLocator()->get('Api.MpRules');
 
         $data = $entity->find()
@@ -177,7 +175,7 @@ class MpController extends AppController
             ])
             ->where([
                 'MpRules.keywords' => $keywords,
-                'MpRules.mp_id' => $mp_id,
+                'MpRules.mp_id' => $this->mpId,
                 'MpRules.status' => 1
             ])
             ->first();
@@ -193,12 +191,18 @@ class MpController extends AppController
 
     /**
      * 事件回复
-     * @param null $name
+     * @param null|object $message
      * @param null $mp_id
      * @return Image|null
      */
-    protected function replyEvent($name = null, $mp_id = null)
+    protected function replyEvent($message = null)
     {
+        $event = $message->Event;
+
+        // 菜单点击事件
+        if (strtolower($event) == 'click') {
+            return $this->replyMsg($message->EventKey);
+        }
 
         $entity = TableRegistry::getTableLocator()->get('Api.MpEvents');
 
@@ -217,8 +221,8 @@ class MpController extends AppController
                 ]
             ])
             ->where([
-                'MpEvents.name' => $name,
-                'MpEvents.mp_id' => $mp_id,
+                'MpEvents.name' => $event,
+                'MpEvents.mp_id' => $this->mpId,
                 'MpEvents.status' => 1
             ])
             ->first();

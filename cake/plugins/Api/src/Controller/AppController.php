@@ -28,6 +28,9 @@ class AppController extends BaseController
     protected $authAllow = [
         'Users' => [
             'login'
+        ],
+        'MpMenus' => [
+            'test'
         ]
     ];
 

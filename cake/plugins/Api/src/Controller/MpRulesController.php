@@ -91,6 +91,10 @@ class MpRulesController extends AppController
                 ])
                 ->first();
 
+            if (!empty($data)) {
+                $data['mp_message']['full_media_url'] = empty($data['mp_message']['media_url']) ? '' : Router::url($data['mp_message']['media_url'], true);
+            }
+
             $this->apiResponse($data);
         }
     }

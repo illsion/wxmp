@@ -44,7 +44,7 @@ class WeChatComponent extends Component
          * file：日志文件位置(绝对路径!!!)，要求可写权限
          */
         'log' => [
-            'level' => 'debug',
+            'level' => 'error',
             'file' => LOGS . 'wechat.log',
         ],
 

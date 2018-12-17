@@ -108,7 +108,12 @@ class MpEventsTable extends Table
     {
         return [
             'subscribe' => '关注',
-            'unsubscribe' => '取消关注'
+            'unsubscribe' => '取消关注',
+            'image' => '收到图片消息',
+            'voice' => '收到语音消息',
+            'video' => '收到视频消息',
+            'location' => '收到坐标消息',
+            'link' => '收到链接消息'
         ];
 
     }
