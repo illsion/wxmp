@@ -58,7 +58,7 @@
 import { getRuleList, deleteRule } from '@/api/wx'
 import UpdateMessage from './components/UpdateMessage'
 import ShowMessage from './components/ShowMessage'
-import { messageForm as defaultForm } from './components/messageForm'
+import { formData as defaultForm } from './components/formData'
 
 export default {
   components: {

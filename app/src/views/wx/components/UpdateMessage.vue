@@ -45,7 +45,7 @@
 <script>
 import Upload from '@/components/UploadImage'
 import { updateRule, getRuleItem } from '@/api/wx'
-import { messageForm as defaultForm, fieldsForm } from './messageForm'
+import { formData as defaultForm, fieldsForm } from './formData'
 
 export default {
   name: 'UpdateMessage',

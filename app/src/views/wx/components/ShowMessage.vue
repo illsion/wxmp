@@ -60,7 +60,7 @@
 
 <script>
 
-import { fieldsForm } from './messageForm'
+import { fieldsForm } from './formData'
 
 export default {
   name: 'ShowMessage',

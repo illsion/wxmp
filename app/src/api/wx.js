@@ -89,3 +89,49 @@ export function getMenuList() {
     method: 'post'
   })
 }
+
+/**
+ * 获取指定菜单
+ * @param data
+ */
+export function getMenuItem(data) {
+  return request({
+    url: '/mp-menus/get-menu-item',
+    method: 'post',
+    data
+  })
+}
+
+/**
+ * 更新/添加菜单
+ * @param data
+ */
+export function updateMenu(data) {
+  return request({
+    url: '/mp-menus/update',
+    method: 'post',
+    data
+  })
+}
+
+/**
+ * 删除菜单
+ * @param data
+ */
+export function deleteMenu(data) {
+  return request({
+    url: '/mp-menus/delete',
+    method: 'post',
+    data
+  })
+}
+
+/**
+ * 发布菜单
+ */
+export function releaseMenus() {
+  return request({
+    url: '/mp-menus/release-menus',
+    method: 'post'
+  })
+}
