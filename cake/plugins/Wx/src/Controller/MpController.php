@@ -25,7 +25,7 @@ class MpController extends AppController
          *
          * 当值为 false 时，所有的日志都不会记录
          */
-        'debug' => false,
+        'debug' => true,
         /**
          * 账号基本信息，请从微信公众平台/开放平台获取
          */
@@ -43,7 +43,7 @@ class MpController extends AppController
          * file：日志文件位置(绝对路径!!!)，要求可写权限
          */
         'log' => [
-            'level' => 'debug',
+            'level' => 'error',
             'file' => LOGS . 'wechat.log',
         ],
 

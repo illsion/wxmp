@@ -278,13 +278,6 @@ class MpMenusController extends AppController
     }
 
 
-    public function test()
-    {
-        $this->mpId = 1;
-        $this->releaseMenus();
-        exit;
-    }
-
 
 
 
