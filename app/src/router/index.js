@@ -55,6 +55,11 @@ export const constantRouterMap = [
         path: 'menu',
         meta: { title: '自定义菜单' },
         component: () => import('@/views/wx/menu')
+      },
+      {
+        path: 'member',
+        meta: { title: '关注用户' },
+        component: () => import('@/views/wx/member')
       }
     ]
   },

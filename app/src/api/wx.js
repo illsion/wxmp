@@ -135,3 +135,21 @@ export function releaseMenus() {
     method: 'post'
   })
 }
+
+/**
+ * 获取关注用户
+ */
+export function getMemberList(data) {
+  return request({
+    url: '/mp-member-openid/get-list',
+    method: 'post',
+    data
+  })
+}
+
+export function synchronizeMember() {
+  return request({
+    url: '/mp-member-openid/synchronize',
+    method: 'post'
+  })
+}
