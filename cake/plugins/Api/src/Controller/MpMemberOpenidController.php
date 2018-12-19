@@ -78,13 +78,6 @@ class MpMemberOpenidController extends AppController
 
     }
 
-    public function test()
-    {
-        $this->mpId = 1;
-        $this->getList();
-        exit;
-    }
-
 
     /**
      * 获取openid并同步数据库
