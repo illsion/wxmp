@@ -15,7 +15,7 @@
             {{ scope.row.subscribe | formatStatus }}
           </td>
           <td class="is-center">
-            <img :src="scope.row.headimgurl" height="50" />
+            <img :src="scope.row.headimgurl" height="50">
           </td>
           <td class="is-center">
             {{ scope.row.nickname }}
@@ -34,6 +34,7 @@
 
 <script>
 import { getMemberList, synchronizeMember } from '@/api/wx'
+import check from './check'
 
 export default {
   filters: {
@@ -66,6 +67,7 @@ export default {
     }
   },
   created() {
+    check()
     this.fetchData()
   },
   methods: {
@@ -74,7 +76,8 @@ export default {
         page: this.pageData.page
       }
       getMemberList(queryData).then(response => {
-        this.list = response.data
+        this.list = response.items
+        this.pageData = response.pageData
       })
     },
     synchronize() {

@@ -70,6 +70,7 @@
 import { synchronizeMenu, getMenuList, releaseMenus, deleteMenu } from '../../api/wx'
 import { menuType as typeIndex, menuContent as label } from './components/formData'
 import UpdateMenus from './components/UpdateMenu'
+import check from './check'
 
 const updateDefult = {
   open: false,
@@ -124,6 +125,7 @@ export default {
     }
   },
   created() {
+    check()
     this.fetchData()
   },
   methods: {

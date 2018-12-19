@@ -32,9 +32,15 @@ export default {
   },
   methods: {
     fetchData() {
-      getServerInfo().then(response => {
-        this.info = response
-      })
+      const serveInfo = this.$store.getters.serveInfo
+      if (serveInfo.length === 0) {
+        getServerInfo().then(response => {
+          this.info = response
+          this.$store.commit('SET_SERVEINFO', response)
+        })
+      } else {
+        this.info = serveInfo
+      }
     }
   }
 }

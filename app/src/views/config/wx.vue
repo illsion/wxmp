@@ -176,9 +176,6 @@ export default {
         this.validateForm = Object.assign({}, item)
       }
     },
-    createData() {
-      this.open = true
-    },
     updateForm() {
       this.$refs.form.validate().then((result) => {
         if (result) {

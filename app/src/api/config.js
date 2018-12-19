@@ -12,6 +12,10 @@ export function getUserList(data) {
   })
 }
 
+/**
+ * 用户更新
+ * @param data
+ */
 export function updateUser(data) {
   return request({
     url: '/users/update',

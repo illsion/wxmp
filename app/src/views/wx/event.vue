@@ -23,6 +23,7 @@
 
 <script>
 import { getEventList, updateEvent } from '../../api/wx'
+import check from './check'
 
 const defaultForm = {
   id: null,
@@ -47,6 +48,7 @@ export default {
     }
   },
   created() {
+    check()
     this.fetchData()
   },
   methods: {

@@ -4,6 +4,7 @@ import getters from './getters'
 import user from './modules/user'
 import auth from './modules/auth'
 import pick from './modules/pick'
+import common from './modules/common'
 
 Vue.use(Vuex)
 
@@ -11,7 +12,8 @@ const store = new Vuex.Store({
   modules: {
     user,
     auth,
-    pick
+    pick,
+    common
   },
   getters
 })

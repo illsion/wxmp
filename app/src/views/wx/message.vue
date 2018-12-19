@@ -59,6 +59,7 @@ import { getRuleList, deleteRule } from '@/api/wx'
 import UpdateMessage from './components/UpdateMessage'
 import ShowMessage from './components/ShowMessage'
 import { formData as defaultForm } from './components/formData'
+import check from './check'
 
 export default {
   components: {
@@ -96,6 +97,7 @@ export default {
     }
   },
   created() {
+    check()
     this.fetchData()
   },
   methods: {
