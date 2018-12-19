@@ -80,7 +80,7 @@ class MpsController extends AppController
                 $data = $this->Mps->patchEntity($beforeData, $data);
             } else {
                 // 添加
-                $data['user_id'] = $this->getUserInfo(null, 'id');
+                $data['user_id'] = $this->userId;
 
                 $entity = $this->Mps->newEntity();
                 $data = $this->Mps->patchEntity($entity, $data);
@@ -136,24 +136,12 @@ class MpsController extends AppController
 
                     $res['result'] = !empty($mpData);
 
-                    // 验证成功,获取接入情况
+                    // 验证成功
                     if ($res['result']) {
-
-                        // 这里可能会出现超时问题
-//                        try {
-//                            $res['status'] = !!$this->WeChat->getApp()->access_token->getToken();
-//                        } catch (\Exception $e) {
-//                            $res['status'] = false;
-//                        }
-
                         // 设置微信公众号缓存
                         $this->setMpCache($mpData, $this->MP_KEY);
                     }
 
-
-                } elseif ($data['type'] == $this->MINI_KEY) {
-                    // 小程序验证
-                    // @todo 待添加
 
                 }
             }

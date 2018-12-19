@@ -43,7 +43,7 @@ class MpMemberOpenidController extends AppController
 
             $openids = $data->map(function ($value) {
                 return $value['openid'];
-            });
+            })->toList();
 
             $userInfo = $this->WeChat->getUser($openids);
 
@@ -78,6 +78,13 @@ class MpMemberOpenidController extends AppController
 
     }
 
+    public function test()
+    {
+        $this->mpId = 1;
+        $this->getList();
+        exit;
+    }
+
 
     /**
      * 获取openid并同步数据库
@@ -96,7 +103,11 @@ class MpMemberOpenidController extends AppController
 
         if ($data !== false) {
 
-            $collection = new Collection($data['data']);
+            if (empty($data['data'])) {
+                $this->apiResponse([], 300, '该公众号无关注用户!');
+            }
+
+            $collection = new Collection($data['data']['openid']);
 
             $rowData = $collection->map(function ($value) {
                 return [
