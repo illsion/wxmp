@@ -60,6 +60,7 @@ service.interceptors.response.use(
     }
   },
   error => {
+    Toast.error('接口调用失败')
     return Promise.reject(error)
   }
 )

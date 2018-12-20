@@ -141,12 +141,15 @@ export function releaseMenus() {
  */
 export function getMemberList(data) {
   return request({
-    url: '/mp-member-openid/get-list',
+    url: '/mp-members/get-list',
     method: 'post',
     data
   })
 }
 
+/**
+ * 同步关注用户
+ */
 export function synchronizeMember() {
   return request({
     url: '/mp-member-openid/synchronize',

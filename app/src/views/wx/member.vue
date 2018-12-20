@@ -12,9 +12,6 @@
       <mu-data-table stripe :columns="columns" :data="list">
         <template slot-scope="scope">
           <td class="is-center">
-            {{ scope.row.subscribe | formatStatus }}
-          </td>
-          <td class="is-center">
             <img :src="scope.row.headimgurl" height="50">
           </td>
           <td class="is-center">
@@ -22,6 +19,12 @@
           </td>
           <td class="is-center">
             {{ scope.row.sex | formatSex }}
+          </td>
+          <td class="is-center">
+            {{ scope.row.subscribe_time }}
+          </td>
+          <td class="is-center">
+            {{ scope.row.subscribe | formatStatus }}
           </td>
         </template>
       </mu-data-table>
@@ -53,10 +56,11 @@ export default {
   data() {
     return {
       columns: [
-        { title: '状态', name: 'subscribe', align: 'center' },
         { title: '头像', name: 'headimgurl', align: 'center' },
         { title: '昵称', name: 'nickname', align: 'center' },
-        { title: '性别', name: 'sex', align: 'center' }
+        { title: '性别', name: 'sex', align: 'center' },
+        { title: '关注时间', name: 'subscribe_time', align: 'center' },
+        { title: '状态', name: 'subscribe', align: 'center' }
       ],
       list: [],
       pageData: {

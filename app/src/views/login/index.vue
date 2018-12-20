@@ -70,7 +70,6 @@ export default {
             this.$router.push({ path: '/' })
           }).catch(() => {
             this.loading = false
-            this.$toast.error('接口调用失败')
           })
         }
       })
