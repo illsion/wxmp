@@ -61,6 +61,8 @@ class MpController extends AppController
 
     protected $mpId = null;
 
+    protected $app;
+
 
     public function initialize()
     {
@@ -91,6 +93,8 @@ class MpController extends AppController
             $this->config['token'] = $data['token'];
 
             $app = new Application($this->config);
+
+            $this->app = $app;
 
             $server = $app->server;
 
@@ -190,6 +194,39 @@ class MpController extends AppController
 
 
     /**
+     * 关注添加用户至数据库
+     * @param $open_id
+     * @return bool
+     */
+    protected function subsribeAction($open_id)
+    {
+        $app = $this->app;
+
+        try {
+            $info = $app->user->get($open_id)->toArray();
+        } catch (\Exception $e) {
+            $info = false;
+        }
+
+        if ($info) {
+            return TableRegistry::getTableLocator()->get('Api.MpMembers')
+                ->subscribe($info, $this->mpId);
+        }
+        return false;
+    }
+
+    /**
+     * 取消关注数据库动作
+     * @param $open_id
+     * @return mixed
+     */
+    protected function unsubsribeAction($open_id)
+    {
+        return TableRegistry::getTableLocator()->get('Api.MpMembers')
+            ->unsubscribe($open_id, $this->mpId);
+    }
+
+    /**
      * 事件回复
      * @param null|object $message
      * @param null $mp_id
@@ -198,10 +235,17 @@ class MpController extends AppController
     protected function replyEvent($message = null)
     {
         $event = $message->Event;
+        $lowerEvent = strtolower($event);
 
         // 菜单点击事件
-        if (strtolower($event) == 'click') {
+        if ($lowerEvent == 'click') {
             return $this->replyMsg($message->EventKey);
+        } elseif ($lowerEvent == 'subscribe') {
+            // 订阅
+            $this->subsribeAction($message->FromUserName);
+        } elseif ($lowerEvent == 'unsubscribe') {
+            // 取消订阅
+            $this->unsubsribeAction($message->FromUserName);
         }
 
         $entity = TableRegistry::getTableLocator()->get('Api.MpEvents');

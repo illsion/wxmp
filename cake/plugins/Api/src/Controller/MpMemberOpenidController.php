@@ -25,38 +25,6 @@ class MpMemberOpenidController extends AppController
 
     }
 
-    /**
-     * 获取关注用户
-     */
-    public function getList()
-    {
-        if ($this->request->is('post')) {
-            // 由于用户为动态调用接口，所以每页数量增大
-            $pageData = $this->setPage(50);
-
-            $query = $this->MpMemberOpenid->find()
-                ->where([
-                    'mp_id' => $this->mpId
-                ]);
-
-            $data = $this->paginate($query);
-
-            $openids = $data->map(function ($value) {
-                return $value['openid'];
-            })->toList();
-
-            $userInfo = $this->WeChat->getUser($openids);
-
-            $count = $this->getPageParams($this->request, $this->MpMemberOpenid);
-            $pageData['count'] = $count;
-
-            $this->apiResponse([
-                'items' => $userInfo['user_info_list'],
-                'pageData' => $pageData
-            ]);
-        }
-
-    }
 
 
     /**
@@ -113,6 +81,9 @@ class MpMemberOpenidController extends AppController
             $entity = $this->MpMemberOpenid->newEntities($rowData);
 
             if ($this->MpMemberOpenid->saveMany($entity)) {
+                if (!$this->setMembers($data['data']['openid'])) {
+                    return false;
+                }
                 if ($data['count'] < 10000) {
                     return true;
                 } else {
@@ -121,6 +92,28 @@ class MpMemberOpenidController extends AppController
             }
             
         }
+        return false;
+    }
+
+
+    /**
+     * 用户信息同步
+     * @param array $openid
+     * @return bool
+     */
+    protected function setMembers($openid = [])
+    {
+        try {
+            $info = $this->WeChat->getUser($openid)->toArray();
+        }catch (\Exception $e) {
+            $info = null;
+        }
+
+        if (!empty($info['user_info_list'])) {
+            return TableRegistry::getTableLocator()->get('Api.MpMembers')
+                ->synchronizeData($info['user_info_list'], $this->mpId);
+        }
+
         return false;
     }
 }
