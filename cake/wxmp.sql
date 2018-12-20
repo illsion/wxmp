@@ -29,7 +29,7 @@ CREATE TABLE `miniapps` (
   `token` varchar(64) NOT NULL,
   `created` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `miniapps` */
 
@@ -58,12 +58,38 @@ CREATE TABLE `mp_member_openid` (
   `openid` varchar(64) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `openid_index` (`openid`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='公众号关注用户openid表';
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='公众号关注用户openid表';
 
 /*Data for the table `mp_member_openid` */
 
 insert  into `mp_member_openid`(`id`,`mp_id`,`openid`) values 
-(1,1,'ov7aY1EDed2YYDDmbFAr1GsBp2Ag');
+(9,1,'ov7aY1EDed2YYDDmbFAr1GsBp2Ag');
+
+/*Table structure for table `mp_members` */
+
+DROP TABLE IF EXISTS `mp_members`;
+
+CREATE TABLE `mp_members` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `openid` varchar(64) NOT NULL,
+  `mp_id` int(11) NOT NULL,
+  `nickname` varchar(64) NOT NULL COMMENT '昵称',
+  `sex` tinyint(2) NOT NULL DEFAULT '0' COMMENT '用户的性别，值为1时是男性，值为2时是女性，值为0时是未知',
+  `city` varchar(24) DEFAULT NULL,
+  `province` varchar(24) DEFAULT NULL,
+  `country` varchar(24) DEFAULT NULL,
+  `headimgurl` varchar(255) DEFAULT NULL COMMENT '头像地址',
+  `subscribe_time` int(10) DEFAULT NULL COMMENT '关注时间',
+  `unsubscribe_time` int(10) DEFAULT NULL COMMENT '取消关注时间',
+  `subscribe` tinyint(2) NOT NULL DEFAULT '1' COMMENT '关注状态',
+  PRIMARY KEY (`id`),
+  KEY `openid_index` (`openid`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='关注用户表';
+
+/*Data for the table `mp_members` */
+
+insert  into `mp_members`(`id`,`openid`,`mp_id`,`nickname`,`sex`,`city`,`province`,`country`,`headimgurl`,`subscribe_time`,`unsubscribe_time`,`subscribe`) values 
+(3,'ov7aY1EDed2YYDDmbFAr1GsBp2Ag',1,'JZaaa',1,'合肥','安徽','中国','http://thirdwx.qlogo.cn/mmopen/vSibFqwz7EgeiagHvdslmU0HrJ8zD68pvtp107dzRlNzCuzHicab49dnw1bW2dfsDz9CYTnjUmrbibeuxMaNMH4cllZYoZmRiaMOp/132',1545274905,1545284544,0);
 
 /*Table structure for table `mp_menus` */
 
