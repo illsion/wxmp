@@ -60,6 +60,11 @@ export const constantRouterMap = [
         path: 'member',
         meta: { title: '关注用户' },
         component: () => import('@/views/wx/member')
+      },
+      {
+        path: 'broadcast',
+        meta: { title: '消息群发' },
+        component: () => import('@/views/wx/broadcast')
       }
     ]
   },

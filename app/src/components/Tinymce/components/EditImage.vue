@@ -1,36 +1,26 @@
 <template>
-  <span>
-    <file-upload
-      ref="upload"
-      v-model="files"
-      :post-action="action"
-      :accept="accept"
-      :headers="headers"
-      @input-file="inputFile"
-      @input-filter="inputFilter"
-    >
-      <img
-        v-if="file !== false"
-        :src="file"
-        :style="{
-          height: iconSize + 'px',
-          width: iconSize + 'px'
-        }"
-      >
-      <mu-icon v-else value="wallpaper" color="info" small class="upload-button" :size="iconSize" />
-      <div class="caption">
-        添加图片
-      </div>
-    </file-upload>
-  </span>
+  <div class="upload">
+    <mu-button color="primary" small @click="addFile">
+      添加图片
+      <file-upload
+        ref="editupload"
+        v-model="files"
+        :post-action="action"
+        :accept="accept"
+        :headers="headers"
+        @input-file="inputFile"
+        @input-filter="inputFilter"
+      />
+    </mu-button>
+  </div>
 </template>
 
 <script>
 import VueUploadComponent from 'vue-upload-component'
-import { getToken } from '../utils/cookie'
+import { getToken } from '@/utils/cookie'
 
 export default {
-  name: 'Upload',
+  name: 'EditImage',
   components: {
     FileUpload: VueUploadComponent
   },
@@ -53,12 +43,13 @@ export default {
       headers: {
         'X-Token': getToken()
       },
-      file: this.img
+      file: this.img,
+      name: 'file'
     }
   },
   methods: {
-    emitInput(val) {
-      this.$emit('input', val)
+    addFile() {
+      this.$refs.editupload.$el.querySelector('input').click()
     },
     /**
      * 添加，更新，移除后
@@ -67,24 +58,24 @@ export default {
      * @return undefined
      */
     inputFile: function(newFile, oldFile) {
-      if (newFile && this.$refs.upload.active) {
+      if (newFile && this.$refs.editupload.active) {
         // 上传错误
         if (newFile.error !== oldFile.error) {
           this.$toast.error('上传失败')
           this.file = false
-          this.$refs.upload.clear() // 清空文件列表
+          this.$refs.editupload.clear() // 清空文件列表
         }
 
         // 上传成功
         if (newFile.success !== oldFile.success) {
           this.$toast.success('上传成功')
-          this.emitInput(newFile.response.data.path)
+          this.$emit('after-upload', newFile.response.data)
         }
       }
       // 自动上传
       if (Boolean(newFile) !== Boolean(oldFile) || oldFile.error !== newFile.error) {
-        if (!this.$refs.upload.active) {
-          this.$refs.upload.active = true
+        if (!this.$refs.editupload.active) {
+          this.$refs.editupload.active = true
         }
       }
     },
@@ -118,13 +109,5 @@ export default {
 </script>
 
 <style scoped>
-  .upload-button {
-    margin: 8px;
-    margin-bottom: 0;
-    vertical-align: middle;
-  }
-  .caption {
-    font-size: 14px;
-    font-weight: 400;
-  }
+
 </style>

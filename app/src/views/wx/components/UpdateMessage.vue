@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import Upload from '@/components/UploadImage'
+import Upload from '@/components/Upload/UploadImage'
 import { updateRule, getRuleItem } from '@/api/wx'
 import { formData as defaultForm, fieldsForm } from './formData'
 
