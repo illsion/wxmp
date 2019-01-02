@@ -48,6 +48,9 @@ service.interceptors.response.use(
       return Promise.reject(res.message)
     }
     if (res.code === 200) {
+      if (res.tipType === true) {
+        Toast.success(res.message)
+      }
       return res.data
     } else {
       if (res.tipType === false) {

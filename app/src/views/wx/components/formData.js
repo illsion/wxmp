@@ -45,3 +45,8 @@ export const menuFieldsForm = {
     pagepath: true
   }
 }
+
+export const broadcastType = {
+  1: '文本',
+  2: '单图文'
+}

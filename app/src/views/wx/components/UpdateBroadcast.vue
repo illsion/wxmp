@@ -42,9 +42,12 @@
 
 <script>
 import Edit from '@/components/Tinymce'
+import { updateBroadcast } from '@/api/wx'
+import { broadcastType } from './formData'
 
 const defaultForm = {
   id: null,
+  list_id: null,
   title: '',
   type: 1,
   content: '',
@@ -63,6 +66,12 @@ export default {
     open: {
       type: Boolean,
       default: false
+    },
+    editData: {
+      type: Object,
+      default() {
+        return {}
+      }
     }
   },
   data() {
@@ -71,10 +80,7 @@ export default {
       textForm: Object.assign({}, defaultForm, { type: 1 }),
       imgForm: Object.assign({}, defaultForm, { type: 2 }),
       loading: false,
-      typeIndex: {
-        1: '文本',
-        2: '单图文'
-      },
+      typeIndex: broadcastType,
       rules: {
         title: [
           { validate: (val) => !!val, message: '不能为空' }
@@ -88,12 +94,58 @@ export default {
       }
     }
   },
+  watch: {
+    editData(newVal) {
+      if (Object.keys(newVal).length > 0) {
+        newVal = {
+          id: newVal.id,
+          title: newVal.title,
+          type: newVal.type,
+          list_id: newVal.mp_news_lists[0].id,
+          author: newVal.mp_news_lists[0].author,
+          content_source_url: newVal.mp_news_lists[0].content_source_url,
+          digest: newVal.mp_news_lists[0].digest,
+          content: newVal.mp_news_lists[0].content,
+          thumb_media_id: newVal.mp_news_lists[0].thumb_media_id
+        }
+      }
+      this.validateForm = Object.assign({}, defaultForm, newVal)
+    }
+  },
   methods: {
     closeDialog() {
       this.$emit('update:open', false)
     },
     updateForm() {
-      console.log(this.validateForm)
+      this.$refs.form.validate().then((result) => {
+        if (result) {
+          this.loading = true
+          const data = Object.assign({}, this.validateForm)
+          const update = {
+            id: data.id,
+            title: data.title,
+            type: data.type,
+            mp_news_lists: [
+              {
+                id: data.list_id,
+                title: data.title,
+                author: data.author,
+                content_source_url: data.content_source_url,
+                digest: data.digest,
+                content: (data.type === 1) ? '' : data.content,
+                thumb_media_id: data.thumb_media_id
+              }
+            ]
+          }
+          updateBroadcast(update).then(response => {
+            this.closeDialog()
+            this.$emit('after-action')
+            this.loading = false
+          }).catch(() => {
+            this.loading = false
+          })
+        }
+      })
     },
     changeTab(val) {
       if (val === 1) {
@@ -112,3 +164,4 @@ export default {
 <style scoped>
 
 </style>
+

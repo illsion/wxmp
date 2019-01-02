@@ -1,6 +1,6 @@
 <template>
   <div :class="{ fullscreen: fullscreen }" class="tinymce-container">
-    <textarea :id="id"></textarea>
+    <textarea :id="id" />
     <div class="upload-btn">
       <edit-image @after-upload="afterUpload" />
     </div>

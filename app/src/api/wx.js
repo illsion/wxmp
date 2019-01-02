@@ -156,3 +156,47 @@ export function synchronizeMember() {
     method: 'post'
   })
 }
+
+export function getBroadcastList(data) {
+  return request({
+    url: '/mp-news/get-list',
+    method: 'post',
+    data
+  })
+}
+
+/**
+ * 新增/添加消息群发
+ * @param data
+ */
+export function updateBroadcast(data) {
+  return request({
+    url: '/mp-news/update',
+    method: 'post',
+    data
+  })
+}
+
+/**
+ * 删除群发消息
+ * @param data
+ */
+export function deleteBroadcast(data) {
+  return request({
+    url: '/mp-news/delete',
+    method: 'post',
+    data
+  })
+}
+
+/**
+ * 发送群发消息
+ * @param data
+ */
+export function sendBroadcast(data) {
+  return request({
+    url: '/mp-news/send',
+    method: 'post',
+    data
+  })
+}
