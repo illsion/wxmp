@@ -41,7 +41,7 @@ class MpMemberOpenidController extends AppController
             
             $res = $this->setData();
             
-            $this->apiResponse([], $res ? 200 : 300, '同步失败！');
+            $this->apiResponse([], $res ? 200 : 300);
         }
 
     }

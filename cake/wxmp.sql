@@ -12,7 +12,7 @@ MySQL - 10.1.29-MariaDB : Database - wxmp
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-CREATE DATABASE /*!32312 IF NOT EXISTS*/`wxmp` /*!40100 DEFAULT CHARACTER SET latin1 */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/`wxmp` /*!40100 DEFAULT CHARACTER SET utf8 */;
 
 USE `wxmp`;
 
@@ -58,12 +58,12 @@ CREATE TABLE `mp_member_openid` (
   `openid` varchar(64) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `openid_index` (`openid`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='公众号关注用户openid表';
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COMMENT='公众号关注用户openid表';
 
 /*Data for the table `mp_member_openid` */
 
 insert  into `mp_member_openid`(`id`,`mp_id`,`openid`) values 
-(9,1,'ov7aY1EDed2YYDDmbFAr1GsBp2Ag');
+(10,1,'ov7aY1EDed2YYDDmbFAr1GsBp2Ag');
 
 /*Table structure for table `mp_members` */
 
@@ -84,12 +84,12 @@ CREATE TABLE `mp_members` (
   `subscribe` tinyint(2) NOT NULL DEFAULT '1' COMMENT '关注状态',
   PRIMARY KEY (`id`),
   KEY `openid_index` (`openid`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='关注用户表';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='关注用户表';
 
 /*Data for the table `mp_members` */
 
 insert  into `mp_members`(`id`,`openid`,`mp_id`,`nickname`,`sex`,`city`,`province`,`country`,`headimgurl`,`subscribe_time`,`unsubscribe_time`,`subscribe`) values 
-(3,'ov7aY1EDed2YYDDmbFAr1GsBp2Ag',1,'JZaaa',1,'合肥','安徽','中国','http://thirdwx.qlogo.cn/mmopen/vSibFqwz7EgeiagHvdslmU0HrJ8zD68pvtp107dzRlNzCuzHicab49dnw1bW2dfsDz9CYTnjUmrbibeuxMaNMH4cllZYoZmRiaMOp/132',1545274905,1545284544,0);
+(4,'ov7aY1EDed2YYDDmbFAr1GsBp2Ag',1,'JZaaa',1,'合肥','安徽','中国','http://thirdwx.qlogo.cn/mmopen/vSibFqwz7EgeiagHvdslmU0HrJ8zD68pvtp107dzRlNzCuzHicab49dnw1bW2dfsDz9CYTnjUmrbibeuxMaNMH4cllZYoZmRiaMOp/132',1546395153,NULL,1);
 
 /*Table structure for table `mp_menus` */
 
@@ -134,6 +134,50 @@ insert  into `mp_messages`(`id`,`title`,`description`,`content`,`url`,`media_url
 (1,'测试标题1','测试描述1','这里是内容','链接1','files/20181211/btfvpw3m.gif'),
 (2,'测试','测试1','测试测试测试','http://www.baidu.com','files/20181214/ype59pjj.gif'),
 (3,'测试2','测试2','123123',NULL,'files/20181214/y1bm1ahb.gif');
+
+/*Table structure for table `mp_news` */
+
+DROP TABLE IF EXISTS `mp_news`;
+
+CREATE TABLE `mp_news` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `mp_id` int(11) unsigned NOT NULL COMMENT '公众号id',
+  `title` text COMMENT '标题',
+  `type` tinyint(2) NOT NULL DEFAULT '1' COMMENT '1:文本,2:单图文',
+  `status` tinyint(2) NOT NULL DEFAULT '2' COMMENT '1:已群发，2:未群发',
+  `created` datetime DEFAULT NULL,
+  `modified` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='消息群发';
+
+/*Data for the table `mp_news` */
+
+insert  into `mp_news`(`id`,`mp_id`,`title`,`type`,`status`,`created`,`modified`) values 
+(1,1,'这是一条文本群发消息2',1,1,'2019-01-02 11:53:12','2019-01-02 14:17:34');
+
+/*Table structure for table `mp_news_lists` */
+
+DROP TABLE IF EXISTS `mp_news_lists`;
+
+CREATE TABLE `mp_news_lists` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `mp_news_id` int(11) NOT NULL,
+  `title` text,
+  `author` varchar(120) DEFAULT NULL COMMENT '作者',
+  `content_source_url` varchar(255) DEFAULT NULL COMMENT '原文链接',
+  `digest` text COMMENT '描述',
+  `content` text COMMENT '内容',
+  `thumb_media_id` varchar(500) DEFAULT NULL COMMENT '媒体id',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='群发消息详情列表';
+
+/*Data for the table `mp_news_lists` */
+
+insert  into `mp_news_lists`(`id`,`mp_news_id`,`title`,`author`,`content_source_url`,`digest`,`content`,`thumb_media_id`) values 
+(1,1,'dsfsdf','','','','',''),
+(3,1,'这是一条文本群发消息','','','','',''),
+(4,1,'这是一条文本群发消息213','','','','',''),
+(5,1,'这是一条文本群发消息2','','','','','');
 
 /*Table structure for table `mp_rules` */
 
