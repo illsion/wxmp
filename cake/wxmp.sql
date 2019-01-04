@@ -58,12 +58,12 @@ CREATE TABLE `mp_member_openid` (
   `openid` varchar(64) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `openid_index` (`openid`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COMMENT='公众号关注用户openid表';
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COMMENT='公众号关注用户openid表';
 
 /*Data for the table `mp_member_openid` */
 
 insert  into `mp_member_openid`(`id`,`mp_id`,`openid`) values 
-(10,1,'ov7aY1EDed2YYDDmbFAr1GsBp2Ag');
+(11,1,'ov7aY1EDed2YYDDmbFAr1GsBp2Ag');
 
 /*Table structure for table `mp_members` */
 
@@ -84,12 +84,12 @@ CREATE TABLE `mp_members` (
   `subscribe` tinyint(2) NOT NULL DEFAULT '1' COMMENT '关注状态',
   PRIMARY KEY (`id`),
   KEY `openid_index` (`openid`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='关注用户表';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='关注用户表';
 
 /*Data for the table `mp_members` */
 
 insert  into `mp_members`(`id`,`openid`,`mp_id`,`nickname`,`sex`,`city`,`province`,`country`,`headimgurl`,`subscribe_time`,`unsubscribe_time`,`subscribe`) values 
-(4,'ov7aY1EDed2YYDDmbFAr1GsBp2Ag',1,'JZaaa',1,'合肥','安徽','中国','http://thirdwx.qlogo.cn/mmopen/vSibFqwz7EgeiagHvdslmU0HrJ8zD68pvtp107dzRlNzCuzHicab49dnw1bW2dfsDz9CYTnjUmrbibeuxMaNMH4cllZYoZmRiaMOp/132',1546395153,NULL,1);
+(5,'ov7aY1EDed2YYDDmbFAr1GsBp2Ag',1,'JZaaa',1,'合肥','安徽','中国','http://thirdwx.qlogo.cn/mmopen/vSibFqwz7EgeiagHvdslmU0HrJ8zD68pvtp107dzRlNzCuzHicab49dnw1bW2dfsDz9CYTnjUmrbibeuxMaNMH4cllZYoZmRiaMOp/132',1546395153,NULL,1);
 
 /*Table structure for table `mp_menus` */
 
@@ -142,18 +142,21 @@ DROP TABLE IF EXISTS `mp_news`;
 CREATE TABLE `mp_news` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `mp_id` int(11) unsigned NOT NULL COMMENT '公众号id',
+  `media_id` varchar(500) DEFAULT NULL COMMENT '永久media_id',
   `title` text COMMENT '标题',
   `type` tinyint(2) NOT NULL DEFAULT '1' COMMENT '1:文本,2:单图文',
   `status` tinyint(2) NOT NULL DEFAULT '2' COMMENT '1:已群发，2:未群发',
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='消息群发';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='消息群发';
 
 /*Data for the table `mp_news` */
 
-insert  into `mp_news`(`id`,`mp_id`,`title`,`type`,`status`,`created`,`modified`) values 
-(1,1,'这是一条文本群发消息2',1,1,'2019-01-02 11:53:12','2019-01-02 14:17:34');
+insert  into `mp_news`(`id`,`mp_id`,`media_id`,`title`,`type`,`status`,`created`,`modified`) values 
+(1,1,NULL,'这是一条文本群发消息2',1,1,'2019-01-02 11:53:12','2019-01-02 14:17:34'),
+(2,1,'sK7eg7d5_1hBwTN3g4EP7oeJW8TTg1jRsUK3uvbAtQA','这是测试单图文标题',2,1,'2019-01-03 13:48:45','2019-01-04 09:40:29'),
+(3,1,NULL,'ok12',1,1,'2019-01-03 14:11:42','2019-01-04 09:20:39');
 
 /*Table structure for table `mp_news_lists` */
 
@@ -168,16 +171,17 @@ CREATE TABLE `mp_news_lists` (
   `digest` text COMMENT '描述',
   `content` text COMMENT '内容',
   `thumb_media_id` varchar(500) DEFAULT NULL COMMENT '媒体id',
+  `thumb_media_path` varchar(500) DEFAULT NULL COMMENT '媒体路径',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='群发消息详情列表';
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COMMENT='群发消息详情列表';
 
 /*Data for the table `mp_news_lists` */
 
-insert  into `mp_news_lists`(`id`,`mp_news_id`,`title`,`author`,`content_source_url`,`digest`,`content`,`thumb_media_id`) values 
-(1,1,'dsfsdf','','','','',''),
-(3,1,'这是一条文本群发消息','','','','',''),
-(4,1,'这是一条文本群发消息213','','','','',''),
-(5,1,'这是一条文本群发消息2','','','','','');
+insert  into `mp_news_lists`(`id`,`mp_news_id`,`title`,`author`,`content_source_url`,`digest`,`content`,`thumb_media_id`,`thumb_media_path`) values 
+(1,1,'dsfsdf','','','','','',NULL),
+(3,1,'这是一条文本群发消息','','','','','',NULL),
+(6,2,'这是测试单图文标题','JZaaa','','这是测试单图文的摘要','<p><img src=\"http://mmbiz.qpic.cn/mmbiz_jpg/tB7JR5Jwpl5NwOxS9To67iaMjlCcbBSKayIuF2HiafJwXhplicF6j0v9GQQjwiajNvh4bWibdeF8wA1CzPSiccevwGrQ/0\" /></p>\n<p>1231</p>','sK7eg7d5_1hBwTN3g4EP7muNVD7XtvOU8Cfx5hBXzhY','files/20190104/4xwtknj7.jpg'),
+(10,3,'ok12','','','','','','');
 
 /*Table structure for table `mp_rules` */
 

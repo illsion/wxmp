@@ -38,6 +38,7 @@ class MpNewsList extends Entity
         'digest' => true,
         'content' => true,
         'thumb_media_id' => true,
+        'thumb_media_path' => true,
         'mp_news' => true
     ];
 }

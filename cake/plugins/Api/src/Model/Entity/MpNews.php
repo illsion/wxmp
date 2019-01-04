@@ -31,6 +31,7 @@ class MpNews extends Entity
      */
     protected $_accessible = [
         'mp_id' => true,
+        'media_id' => true,
         'title' => true,
         'type' => true,
         'status' => true,
