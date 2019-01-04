@@ -2,7 +2,7 @@
   <div :class="{ fullscreen: fullscreen }" class="tinymce-container">
     <textarea :id="id" />
     <div class="upload-btn">
-      <edit-image @after-upload="afterUpload" />
+      <edit-image :send-media="sendMedia" :accept="accept" @after-upload="afterUpload" />
     </div>
   </div>
 </template>
@@ -27,6 +27,14 @@ export default {
     value: {
       type: String,
       default: ''
+    },
+    sendMedia: {
+      type: [Boolean, String],
+      default: false
+    },
+    accept: {
+      type: String,
+      default: 'image/png,image/gif,image/jpeg,image/webp'
     }
   },
   data() {

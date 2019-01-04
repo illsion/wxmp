@@ -28,7 +28,8 @@
             <mu-text-field v-model="validateForm.content_source_url" />
           </mu-form-item>
         </mu-form>
-        <edit v-model="validateForm.content" />
+        <upload-image :accept="'image/jpeg'" :img="validateForm.thumb_media_path_full" :text="'封面图片'" :send-media="'media_temp'" @after-upload="setMediaId" />
+        <edit v-model="validateForm.content" :accept="'image/png,image/jpeg'" :send-media="'article'" />
       </div>
     </div>
     <mu-button slot="actions" v-loading="loading" flat color="primary" :disabled="loading" @click="updateForm">
@@ -42,6 +43,7 @@
 
 <script>
 import Edit from '@/components/Tinymce'
+import UploadImage from '@/components/Upload/UploadImage'
 import { updateBroadcast } from '@/api/wx'
 import { broadcastType } from './formData'
 
@@ -54,13 +56,16 @@ const defaultForm = {
   author: '',
   content_source_url: '',
   digest: '',
-  thumb_media_id: ''
+  thumb_media_id: '',
+  thumb_media_path: '',
+  thumb_media_path_full: ''
 }
 
 export default {
   name: 'UpdateBroadcast',
   components: {
-    Edit
+    Edit,
+    UploadImage
   },
   props: {
     open: {
@@ -106,7 +111,9 @@ export default {
           content_source_url: newVal.mp_news_lists[0].content_source_url,
           digest: newVal.mp_news_lists[0].digest,
           content: newVal.mp_news_lists[0].content,
-          thumb_media_id: newVal.mp_news_lists[0].thumb_media_id
+          thumb_media_id: newVal.mp_news_lists[0].thumb_media_id,
+          thumb_media_path: newVal.mp_news_lists[0].thumb_media_path,
+          thumb_media_path_full: newVal.mp_news_lists[0].thumb_media_path_full
         }
       }
       this.validateForm = Object.assign({}, defaultForm, newVal)
@@ -133,7 +140,8 @@ export default {
                 content_source_url: data.content_source_url,
                 digest: data.digest,
                 content: (data.type === 1) ? '' : data.content,
-                thumb_media_id: data.thumb_media_id
+                thumb_media_id: data.thumb_media_id,
+                thumb_media_path: data.thumb_media_path
               }
             ]
           }
@@ -156,6 +164,10 @@ export default {
         this.textForm = Object.assign({}, this.validateForm, { type: 1 })
         this.validateForm = Object.assign({}, this.imgForm, { type: val })
       }
+    },
+    setMediaId(val) {
+      this.validateForm.thumb_media_path = val.path
+      this.validateForm.thumb_media_id = val.media_id
     }
   }
 }

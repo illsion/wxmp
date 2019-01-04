@@ -12,7 +12,7 @@
       <mu-data-table stripe :columns="columns" :data="list">
         <template slot-scope="scope">
           <td class="is-center">
-            {{ scope.row.title }}
+            {{ scope.row.title | formatTitle }}
           </td>
           <td class="is-center">
             {{ scope.row.type | formatType }}
@@ -54,12 +54,18 @@ export default {
   filters: {
     formatType(val) {
       return broadcastType[val] || val
+    },
+    formatTitle(val) {
+      if (val.length > 18) {
+        return val.substring(0, 18) + '...'
+      }
+      return val
     }
   },
   data() {
     return {
       columns: [
-        { title: '标题', name: 'title', align: 'center' },
+        { title: '标题', name: 'title', align: 'center', width: 350 },
         { title: '类型', name: 'type', align: 'center' },
         { title: '状态', name: 'status', align: 'center' },
         { title: '操作', align: 'center', width: 500 }

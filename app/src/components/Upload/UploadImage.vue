@@ -6,6 +6,10 @@
       :post-action="action"
       :accept="accept"
       :headers="headers"
+      :data="{
+        send: sendMedia
+      }"
+      :size="size"
       @input-file="inputFile"
       @input-filter="inputFilter"
     >
@@ -19,7 +23,7 @@
       >
       <mu-icon v-else value="wallpaper" color="info" small class="upload-button" :size="iconSize" />
       <div class="caption">
-        添加图片
+        {{ text }}
       </div>
     </file-upload>
   </span>
@@ -42,6 +46,23 @@ export default {
     img: {
       type: String,
       default: ''
+    },
+    // 是否上传微信服务器,若需要其他处理可设置after-upload函数
+    sendMedia: {
+      type: [Boolean, String],
+      default: false
+    },
+    text: {
+      type: String,
+      default: '添加图片'
+    },
+    size: {
+      type: Number,
+      default: 1024 * 1024
+    },
+    accept: {
+      type: String,
+      default: 'image/png,image/gif,image/jpeg,image/webp'
     }
   },
   data() {
@@ -49,16 +70,20 @@ export default {
       files: [],
       imageUrl: '',
       action: process.env.VUE_APP_BASE_API + process.env.VUE_APP_UPLOAD_IMG_URL,
-      accept: 'image/png,image/gif,image/jpeg,image/webp',
       headers: {
         'X-Token': getToken()
       },
-      file: this.img
+      file: (this.img) ? this.img : false
     }
   },
   methods: {
     emitInput(val) {
       this.$emit('input', val)
+    },
+    inputError(err) {
+      this.$toast.error(err || '上传失败')
+      this.file = false
+      this.$refs.upload.clear() // 清空文件列表
     },
     /**
      * 添加，更新，移除后
@@ -70,15 +95,18 @@ export default {
       if (newFile && this.$refs.upload.active) {
         // 上传错误
         if (newFile.error !== oldFile.error) {
-          this.$toast.error('上传失败')
-          this.file = false
-          this.$refs.upload.clear() // 清空文件列表
+          this.inputError(newFile.error === 'size' ? '图片过大' : false)
         }
-
         // 上传成功
         if (newFile.success !== oldFile.success) {
-          this.$toast.success('上传成功')
-          this.emitInput(newFile.response.data.path)
+          if (newFile.response.code !== 200) {
+            this.inputError(newFile.response.message)
+          } else {
+            this.$toast.success('上传成功')
+            this.file = newFile.blob
+            this.emitInput(newFile.response.data.path)
+            this.$emit('after-upload', newFile.response.data)
+          }
         }
       }
       // 自动上传
@@ -110,7 +138,6 @@ export default {
       const URL = window.URL || window.webkitURL
       if (URL && URL.createObjectURL) {
         newFile.blob = URL.createObjectURL(newFile.file)
-        this.file = newFile.blob
       }
     }
   }

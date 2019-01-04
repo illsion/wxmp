@@ -8,6 +8,9 @@
         :post-action="action"
         :accept="accept"
         :headers="headers"
+        :data="{
+          send: sendMedia
+        }"
         @input-file="inputFile"
         @input-filter="inputFilter"
       />
@@ -25,13 +28,18 @@ export default {
     FileUpload: VueUploadComponent
   },
   props: {
-    iconSize: {
-      type: Number,
-      default: 80
-    },
     img: {
       type: String,
       default: ''
+    },
+    // 是否上传微信服务器
+    sendMedia: {
+      type: [Boolean, String],
+      default: false
+    },
+    accept: {
+      type: String,
+      default: 'image/png,image/gif,image/jpeg,image/webp'
     }
   },
   data() {
@@ -39,7 +47,6 @@ export default {
       files: [],
       imageUrl: '',
       action: process.env.VUE_APP_BASE_API + process.env.VUE_APP_UPLOAD_IMG_URL,
-      accept: 'image/png,image/gif,image/jpeg,image/webp',
       headers: {
         'X-Token': getToken()
       },
@@ -51,6 +58,11 @@ export default {
     addFile() {
       this.$refs.editupload.$el.querySelector('input').click()
     },
+    inputError(err) {
+      this.$toast.error(err || '上传失败')
+      this.file = false
+      this.$refs.editupload.clear() // 清空文件列表
+    },
     /**
      * 添加，更新，移除后
      * @param  newFile   只读
@@ -61,15 +73,17 @@ export default {
       if (newFile && this.$refs.editupload.active) {
         // 上传错误
         if (newFile.error !== oldFile.error) {
-          this.$toast.error('上传失败')
-          this.file = false
-          this.$refs.editupload.clear() // 清空文件列表
+          this.inputError()
         }
 
         // 上传成功
         if (newFile.success !== oldFile.success) {
-          this.$toast.success('上传成功')
-          this.$emit('after-upload', newFile.response.data)
+          if (newFile.response.code !== 200) {
+            this.inputError(newFile.response.message)
+          } else {
+            this.$toast.success('上传成功')
+            this.$emit('after-upload', newFile.response.data)
+          }
         }
       }
       // 自动上传
