@@ -11,4 +11,16 @@ PHP >=5.6
 ````
 composer install
 ````
-`导入wxmp.sql数据库文件`
+
+## 使用
+
+### 配置文件
+复制`app.default.php`并重命名为`app.php`,在`app.php`中进行相关配置
+
+### 数据库迁移
+在`app.php`中正确配置mysql后，运行以下代码进行数据库迁移
+````
+$ bin/cake migrations migrate
+````
+- 用户名: admin
+- 密码: 123456
