@@ -178,7 +178,7 @@ class MpNewsController extends AppController
                     $this->MpNews->save($data);
 
                     if ($res['errcode'] == 0) {
-                        $this->apiResponse($res, 200, '群发成功！', true);
+                        $this->apiResponse([], 200, '群发成功！', true);
                     }
                 } elseif (!is_null($res['errcode'])) {
                     $this->apiResponse([], 300, $res['errmsg']);

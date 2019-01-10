@@ -164,6 +164,8 @@ class MiniappsController extends AppController
 
                 if ($summary !== false) {
                     $this->apiResponse(compact('summary', 'dailyVisit', 'weeklyVisit', 'visit', 'retain'));
+                } else {
+                    $this->apiResponse([], 300, '获取信息失败，请检查配置项是否正确！');
                 }
 
             }
