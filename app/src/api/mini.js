@@ -35,3 +35,11 @@ export function deleteMini(data) {
     data
   })
 }
+
+export function getInfo(data) {
+  return request({
+    url: '/miniapps/get-stats',
+    method: 'post',
+    data
+  })
+}

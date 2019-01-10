@@ -25,6 +25,9 @@
               {{ scope.row.token }}
             </td>
             <td class="is-center">
+              <mu-button flat color="info" small @click="openInfo(scope.row)">
+                统计信息
+              </mu-button>
               <mu-button flat color="secondary" small @click="openDialog(scope.row)">
                 编辑
               </mu-button>
@@ -61,11 +64,48 @@
         取消
       </mu-button>
     </mu-dialog>
+    <mu-dialog title="统计信息" scrollable :open.sync="info.open" width="500">
+      <mu-list textline="two-line">
+        <mu-list-item>
+          <mu-list-item-content>
+            <mu-list-item-title>昨日概况趋势</mu-list-item-title>
+            <mu-list-item-sub-title>{{ info.item.summary }}</mu-list-item-sub-title>
+          </mu-list-item-content>
+        </mu-list-item>
+        <mu-list-item>
+          <mu-list-item-content>
+            <mu-list-item-title>昨日访问日趋势</mu-list-item-title>
+            <mu-list-item-sub-title>{{ info.item.dailyVisit }}</mu-list-item-sub-title>
+          </mu-list-item-content>
+        </mu-list-item>
+        <mu-list-item>
+          <mu-list-item-content>
+            <mu-list-item-title>本周访问周趋势</mu-list-item-title>
+            <mu-list-item-sub-title>{{ info.item.weeklyVisit }}</mu-list-item-sub-title>
+          </mu-list-item-content>
+        </mu-list-item>
+        <mu-list-item>
+          <mu-list-item-content>
+            <mu-list-item-title>昨日访问分布</mu-list-item-title>
+            <mu-list-item-sub-title>{{ info.item.visit }}</mu-list-item-sub-title>
+          </mu-list-item-content>
+        </mu-list-item>
+        <mu-list-item>
+          <mu-list-item-content>
+            <mu-list-item-title>昨日访问日留存</mu-list-item-title>
+            <mu-list-item-sub-title>{{ info.item.retain }}</mu-list-item-sub-title>
+          </mu-list-item-content>
+        </mu-list-item>
+      </mu-list>
+      <mu-button slot="actions" flat @click="info.open = false">
+        取消
+      </mu-button>
+    </mu-dialog>
   </div>
 </template>
 
 <script>
-import { getList, update, deleteMini } from '@/api/mini'
+import { getList, update, deleteMini, getInfo } from '@/api/mini'
 
 const defaultForm = {
   id: null,
@@ -106,7 +146,17 @@ export default {
           { validate: (val) => !!val, message: '不能为空' }
         ]
       },
-      open: false
+      open: false,
+      info: {
+        open: false,
+        item: {
+          summary: 0,
+          dailyVisit: 0,
+          weeklyVisit: 0,
+          visit: 0,
+          retain: 0
+        }
+      }
     }
   },
   created() {
@@ -120,6 +170,14 @@ export default {
       getList(queryData).then(response => {
         this.list = response.items
         this.pageData = response.pageData
+      })
+    },
+    openInfo(row) {
+      getInfo({
+        id: row.id
+      }).then(response => {
+        this.info.item = response
+        this.info.open = true
       })
     },
     closeDialog() {
